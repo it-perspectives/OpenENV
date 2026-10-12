@@ -1,0 +1,45 @@
+{
+  "name": "@it-perspectives/openenv",
+  "version": "0.1.0",
+  "description": "OpenENV environment variable contracts, JSON Schema, and linter",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/it-perspectives/OpenENV.git"
+  },
+  "bin": {
+    "openenv": "bin/openenv.js"
+  },
+  "exports": {
+    ".": "./src/index.js",
+    "./schema": "./schemas/openenv-0.1.0.schema.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "bin",
+    "src",
+    "schemas",
+    "examples",
+    "docs",
+    "SPEC.md",
+    "CHANGELOG.md",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "lint": "node bin/openenv.js lint examples/openenv.yaml examples/openenv.json --warnings-as-errors",
+    "verify": "npm test && npm run lint",
+    "release:prepare": "npm run verify && node scripts/prepare-release.js",
+    "prepack": "npm run verify"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "yaml": "2.9.1"
+  }
+}

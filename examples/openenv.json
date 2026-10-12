@@ -1,0 +1,60 @@
+{
+  "openenv": "0.1.0",
+  "info": {
+    "title": "Orders service environment",
+    "version": "1.0.0",
+    "description": "Environment variables required to run the orders service."
+  },
+  "variables": {
+    "PORT": {
+      "description": "HTTP listen port.",
+      "type": "integer",
+      "default": 8080,
+      "minimum": 1,
+      "maximum": 65535
+    },
+    "LOG_LEVEL": {
+      "description": "Minimum log severity.",
+      "type": "string",
+      "enum": [
+        "debug",
+        "info",
+        "warn",
+        "error"
+      ],
+      "default": "info"
+    },
+    "FEATURE_ORDERS_ENABLED": {
+      "description": "Enable order creation.",
+      "type": "boolean",
+      "default": true
+    },
+    "ALLOWED_HOSTS": {
+      "description": "Hosts allowed to access the service.",
+      "type": "array",
+      "delimiter": ",",
+      "default": ["localhost"],
+      "examples": [["localhost", "example.invalid"]]
+    },
+    "ENABLED_MODULES": {
+      "description": "Modules enabled for the service.",
+      "type": "array",
+      "delimiter": " ",
+      "default": ["orders", "health"]
+    },
+    "DATABASE_URL": {
+      "description": "PostgreSQL connection URI, including credentials.",
+      "type": "string",
+      "format": "uri",
+      "required": true,
+      "sensitive": true
+    },
+    "API_TOKEN": {
+      "description": "Token used to call the upstream service.",
+      "type": "string",
+      "required": true,
+      "sensitive": true,
+      "minLength": 1
+    }
+  }
+}
