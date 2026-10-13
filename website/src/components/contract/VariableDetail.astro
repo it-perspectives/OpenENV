@@ -1,0 +1,54 @@
+---
+import Badge from '../ui/Badge.astro';
+import CodeBlock from '../ui/CodeBlock.astro';
+import { variableNote, variableYaml } from '../../lib/variable';
+import type { Variable } from '../../types/contract';
+
+interface Props {
+  name: string;
+  variable: Variable;
+  hidden?: boolean;
+}
+const { name, variable, hidden = false } = Astro.props;
+const valueLabel = variable.sensitive ? 'LITERALS' : variable.delimiter ? 'DELIMITER' : 'DEFAULT';
+const value = variable.sensitive
+  ? 'forbidden'
+  : variable.delimiter
+    ? JSON.stringify(variable.delimiter)
+    : Object.hasOwn(variable, 'default')
+      ? JSON.stringify(variable.default)
+      : '—';
+---
+
+<section class="panel section" data-detail={name} hidden={hidden}>
+  <div class="section-head">
+    <div>
+      <p class="eyebrow">VARIABLE DETAIL / {name}</p>
+      <h2 class="mono-title">{name}</h2>
+    </div>
+    <Badge tone={variable.sensitive ? 'orange' : 'default'}>
+      {variable.sensitive ? 'SENSITIVE VARIABLE' : 'CONTRACT VARIABLE'}
+    </Badge>
+  </div>
+  <div class="detail">
+    <div>
+      <p>{variable.description}</p>
+      <div class="field-grid">
+        <div class="field">
+          <small>TYPE</small>
+          <strong class="cyan">{variable.type}</strong>
+        </div>
+        <div class="field">
+          <small>PRESENCE</small>
+          <strong>{variable.required ? 'required' : 'optional'}</strong>
+        </div>
+        <div class="field">
+          <small>{valueLabel}</small>
+          <strong>{value}</strong>
+        </div>
+      </div>
+      <p>{variableNote(variable)}</p>
+    </div>
+    <CodeBlock label="YAML / VARIABLE OBJECT" code={variableYaml(name, variable)} copy />
+  </div>
+</section>

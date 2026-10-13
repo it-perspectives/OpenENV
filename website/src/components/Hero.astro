@@ -1,0 +1,32 @@
+---
+import { overview } from '../data/content';
+import { site } from '../data/site';
+---
+
+<section class="panel hero">
+  <div class="hero-top">
+    <span class="eyebrow">{overview.label}</span>
+    <span class="tag">
+      <span class="status-dot"></span> FRAMEWORK AGNOSTIC
+    </span>
+  </div>
+  <h1>
+    {overview.title[0]}
+    <br />
+    {overview.title[1]} <em>{overview.accent}</em>
+  </h1>
+  <p>{overview.description}</p>
+  <div class="hero-actions">
+    <a class="button primary" href="/quickstart/">
+      Начать с OpenENV <span>→</span>
+    </a>
+    <a class="button" href={`${site.github}/blob/main/SPEC.md`} target="_blank" rel="noopener">
+      Читать спецификацию ↗
+    </a>
+  </div>
+  <div class="signal" aria-hidden="true">
+    {Array.from({ length: 8 }, () => (
+      <i />
+    ))}
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+import ConsoleLayout from '../layouts/ConsoleLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import Section from '../components/ui/Section.astro';
+import { intros, decodingRules, typeNotes, notes } from '../data/content';
+---
+
+<ConsoleLayout title="Типы и правила">
+  <PageIntro {...intros.types} />
+  <Section label="DECODING REFERENCE" title="ПЯТЬ ТИПОВ ЗНАЧЕНИЙ">
+    {decodingRules.map((rule) => (
+      <div class="rule-row">
+        <h3>{rule.type}</h3>
+        <p>{rule.description}</p>
+        <code class="rule-example">{rule.example}</code>
+      </div>
+    ))}
+    <div class="notice">{notes.presence}</div>
+  </Section>
+  <div class="two-cols">
+    {typeNotes.map((note) => (
+      <Section label={note.label} title={note.title}>
+        <p class="section-description">{note.description}</p>
+        <div class="notice">{note.note}</div>
+      </Section>
+    ))}
+  </div>
+</ConsoleLayout>

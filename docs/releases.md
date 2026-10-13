@@ -95,6 +95,30 @@ The npm tarball can be installed directly before registry publication:
 npm install --save-dev --save-exact ./it-perspectives-openenv-0.1.0.tgz
 ```
 
+## Website and extension build artifacts
+
+The reusable `build-artifacts.yml` workflow builds two additional distributions:
+
+- `openenv-website-linux-amd64.tar.gz`: a Docker image archive tagged
+  `openenv-website:<commit-sha>`. The image serves Astro's static output through
+  unprivileged Nginx on port 8080. CI tests all five routes, the schema, example,
+  health endpoint and 404 behavior before exporting it.
+- `openenv-preview-X.Y.Z.vsix`: the VS Code extension, packaged with the pinned
+  `@vscode/vsce` tool and bundled validator. Its version comes from the extension
+  manifest, independently of the specification's version.
+
+Download them from the workflow run's **Artifacts** section. Artifacts are retained
+for 14 days. The validation workflow calls this build after its checks on PRs and
+`main`; the release workflow calls it on `v*` tags and waits for successful builds
+before its existing specification release step. These two files are workflow
+artifacts, separate from the specification assets attached to a GitHub release.
+No container registry push, site deployment, or Marketplace publication is added.
+
+```sh
+docker load --input openenv-website-linux-amd64.tar.gz
+code --install-extension openenv-preview-X.Y.Z.vsix
+```
+
 ## npm publication
 
 `@it-perspectives/openenv` is the proposed scoped package name. Confirm that the

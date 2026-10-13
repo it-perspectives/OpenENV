@@ -1,0 +1,28 @@
+{
+  "name": "@openenv/website",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "prepare:assets": "node ../scripts/prepare-site.js",
+    "predev": "npm run prepare:assets",
+    "dev": "astro dev --host 127.0.0.1 --port 4321",
+    "prebuild": "npm run prepare:assets",
+    "build": "astro build",
+    "precheck": "npm run prepare:assets",
+    "check": "astro check",
+    "preview": "astro preview --host 127.0.0.1 --port 4321",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "astro": "7.3.8",
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.1"
+  }
+}

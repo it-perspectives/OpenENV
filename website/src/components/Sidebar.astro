@@ -1,0 +1,61 @@
+---
+import { navigation, tools } from '../data/site';
+const path = Astro.url.pathname;
+---
+
+<aside class="panel sidebar" id="sidebar">
+  <a class="button primary" href="/contract/">
+    <span>⌘</span> Исследовать контракт <span>↗</span>
+  </a>
+  <a class="button secondary" href="/quickstart/">
+    <span>›_</span> Быстрый старт
+  </a>
+  <p class="eyebrow nav-label">WORKSPACE</p>
+  <nav aria-label="Разделы сайта">
+    {navigation.map((item) => (
+      <a
+        href={item.href}
+        class:list={{ active: path === item.href }}
+        aria-current={path === item.href ? 'page' : undefined}
+      >
+        <span class="nav-icon">{item.icon}</span>
+        {item.label}
+        <small>{item.count}</small>
+      </a>
+    ))}
+  </nav>
+  <p class="eyebrow nav-label">DEVELOPER TOOLS</p>
+  <nav aria-label="Инструменты">
+    {tools.map((item) => (
+      <a
+        href={item.href}
+        class:list={{ active: path === item.href }}
+        aria-current={path === item.href ? 'page' : undefined}
+        target={item.external ? '_blank' : undefined}
+        download={item.download}
+      >
+        <span class="nav-icon">{item.icon}</span>
+        {item.label}
+        {item.badge && <span class="new-label">{item.badge}</span>}
+      </a>
+    ))}
+  </nav>
+  <div class="sidebar-note">
+    <span class="tiny-bracket">[ ENV ]</span>
+    <p>
+      Сначала контракт.
+      <br />
+      Затем окружение.
+    </p>
+    <small>
+      ANY LANGUAGE.
+      <br />
+      ANY FRAMEWORK.
+    </small>
+  </div>
+  <div class="sidebar-status">
+    <span class="status-dot"></span>
+    <span>OPEN STANDARD</span>
+    <small>MIT</small>
+  </div>
+</aside>

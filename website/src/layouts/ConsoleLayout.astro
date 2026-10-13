@@ -1,0 +1,38 @@
+---
+import Header from '../components/Header.astro';
+import Sidebar from '../components/Sidebar.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+}
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0b1118" />
+    <meta name="description" content={site.description} />
+    <title>OpenENV / {title}</title>
+    <link rel="icon" href="/openenv.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="shell">
+      <Header />
+      <Sidebar />
+      <main id="main" tabindex="-1">
+        <slot />
+      </main>
+      <Footer />
+    </div>
+    <div id="toast" role="status"></div>
+    <script>
+      import '../scripts/site';
+    </script>
+  </body>
+</html>

@@ -4,6 +4,9 @@
   "description": "OpenENV environment variable contracts, JSON Schema, and linter",
   "type": "module",
   "license": "MIT",
+  "workspaces": [
+    "website"
+  ],
   "engines": {
     "node": ">=22"
   },
@@ -32,6 +35,13 @@
   ],
   "scripts": {
     "test": "node --test",
+    "site:build": "npm run build --workspace @openenv/website",
+    "site:dev": "npm run dev --workspace @openenv/website",
+    "site:check": "npm run check --workspace @openenv/website",
+    "site:preview": "npm run preview --workspace @openenv/website",
+    "vscode:build": "node scripts/build-vscode.js",
+    "vscode:package": "npm run vscode:build && node scripts/package-vscode.js",
+    "previews:verify": "npm run site:build && npm run vscode:build && node scripts/verify-previews.js",
     "lint": "node bin/openenv.js lint examples/openenv.yaml examples/openenv.json --warnings-as-errors",
     "verify": "npm test && npm run lint",
     "release:prepare": "npm run verify && node scripts/prepare-release.js",
@@ -42,5 +52,9 @@
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "yaml": "2.9.1"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "4.0.0",
+    "esbuild": "0.28.2"
   }
 }

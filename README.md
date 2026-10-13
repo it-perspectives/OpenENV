@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="docs/openenv.svg" alt="OpenENV logo">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/openenv-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/openenv-light.svg">
+    <img src="docs/openenv-light.svg" alt="OpenENV logo" width="273" height="288">
+  </picture>
 </p>
 
 An open specification for application environment variable contracts, independent of programming languages and frameworks, serialized as YAML or JSON.
@@ -180,6 +184,20 @@ The release schema can be vendored for offline use, including by implementations
 in other languages.
 
 ## Editor integration
+
+A local [Astro documentation website](website/README.md) and
+[VS Code preview prototype](extensions/vscode/README.md) are available in this
+checkout. The preview opens `openenv.yaml`, `openenv.yml`, or `openenv.json` beside
+the source and refreshes on unsaved edits using the reference parser and linter.
+It does not read environment values and is not published to Marketplace.
+
+```sh
+npm run site:dev
+npm run site:build
+npm run vscode:build
+```
+
+See the linked guides for preview launch instructions and verification.
 
 After `v0.1.0` is published, configure the YAML language server:
 

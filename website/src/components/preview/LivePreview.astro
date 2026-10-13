@@ -1,0 +1,58 @@
+---
+import Section from '../ui/Section.astro';
+import { contractYaml } from '../../data/contract';
+---
+
+<live-preview>
+  <Section label="LIVE DEMO / EDIT THE CONTRACT" title="OPENENV PREVIEW">
+    <span slot="actions" class="tag" data-status>
+      VALID CONTRACT
+    </span>
+    <div class="editor-demo">
+      <div class="editor-source">
+        <div class="codebar">
+          <span>○ openenv.yaml</span>
+          <button data-reset>RESET ↺</button>
+        </div>
+        <textarea
+          data-source
+          aria-label="Редактор примера openenv.yaml"
+          spellcheck="false"
+        >{contractYaml}</textarea>
+      </div>
+      <div class="preview-pane" data-preview aria-live="polite"></div>
+    </div>
+    <div class="preview-actions">
+      <button class="button" data-break>
+        Попробовать ошибку →
+      </button>
+      <small>Локально в браузере · reference parser + lint · без отправки YAML</small>
+    </div>
+  </Section>
+  <template data-header-template>
+    <p class="eyebrow" data-label></p>
+    <h3 data-title></h3>
+    <p data-description></p>
+  </template>
+  <template data-card-template>
+    <article class="preview-card">
+      <header>
+        <strong data-name></strong>
+        <span class="badge" data-badge></span>
+      </header>
+      <p data-description></p>
+      <small data-rules></small>
+    </article>
+  </template>
+  <template data-diagnostic-template>
+    <div class="preview-card diag">
+      <strong data-code></strong>
+      <br />
+      <span data-message></span>
+    </div>
+  </template>
+</live-preview>
+
+<script>
+  import '../../scripts/live-preview';
+</script>

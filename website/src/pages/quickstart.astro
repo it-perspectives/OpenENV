@@ -1,0 +1,47 @@
+---
+import ConsoleLayout from '../layouts/ConsoleLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import Section from '../components/ui/Section.astro';
+import CopyCommand from '../components/ui/CopyCommand.astro';
+import CodeBlock from '../components/ui/CodeBlock.astro';
+import Flow from '../components/ui/Flow.astro';
+import {
+  intros,
+  quickstartSteps,
+  runtimeExample,
+  solutionBoundaries,
+  notes,
+} from '../data/content';
+---
+
+<ConsoleLayout title="CLI и интеграция">
+  <PageIntro {...intros.quickstart} />
+  <Section label="LOCAL CHECKOUT" title="БЫСТРЫЙ СТАРТ">
+    {quickstartSteps.map((step) => (
+      <>
+        <div class="step">
+          <span>{step.number}</span>
+          <div>
+            <h3>{step.title}</h3>
+            <p>{step.description}</p>
+          </div>
+        </div>
+        {step.commands.map((command) => (
+          <CopyCommand command={command} />
+        ))}
+      </>
+    ))}
+    <div class="notice">{notes.cliExitCodes}</div>
+  </Section>
+  <Section label="APPLICATION INTEGRATION" title="ПРОВЕРКА ПРИ ЗАПУСКЕ">
+    <p class="section-description">{notes.runtimeIntegration}</p>
+    <CodeBlock
+      label="JAVASCRIPT / REFERENCE API"
+      note="POST-PUBLICATION EXAMPLE"
+      code={runtimeExample}
+    />
+  </Section>
+  <Section label="BOUNDARIES" title="ЧТО ВХОДИТ В ТЕКУЩЕЕ РЕШЕНИЕ">
+    <Flow items={solutionBoundaries} />
+  </Section>
+</ConsoleLayout>

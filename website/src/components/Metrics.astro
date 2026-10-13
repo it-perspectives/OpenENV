@@ -1,0 +1,13 @@
+---
+import { metrics } from '../data/contract';
+---
+
+<div class="metrics">
+  {metrics.map((metric) => (
+    <div class="metric">
+      <div class="eyebrow">{metric.label}</div>
+      <strong>{metric.value}</strong>
+      <small>{metric.note}</small>
+    </div>
+  ))}
+</div>

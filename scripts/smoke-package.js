@@ -14,7 +14,9 @@ const run = (command, args) => {
   assert.equal(output.status, 0, output.stderr || output.stdout);
   return output.stdout;
 };
-run('npm', ['install', '--offline', '--ignore-scripts', '--no-audit', '--no-fund', tarball]);
+// npm ci can cache tarballs without the registry metadata a fresh consumer needs.
+// Reuse cached data, but allow npm to fetch missing metadata or dependencies.
+run('npm', ['install', '--prefer-offline', '--ignore-scripts', '--no-audit', '--no-fund', tarball]);
 writeFileSync(join(directory, 'consumer.js'), `
 import assert from 'node:assert/strict';
 import { parseSpec, lintSpec, checkEnvironment } from '@it-perspectives/openenv';

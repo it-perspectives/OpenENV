@@ -1,0 +1,48 @@
+---
+import Section from '../ui/Section.astro';
+import { contractYaml, contractJson } from '../../data/contract';
+---
+
+<Section label="SOURCE OF TRUTH" title="openenv.yaml">
+  <a slot="actions" class="text-link" href="/openenv.yaml" download>
+    Скачать пример ↓
+  </a>
+  <source-viewer class="codebox">
+    <div class="codebar">
+      <span>ORDERS SERVICE ENVIRONMENT</span>
+      <div>
+        <button data-format="yaml" class="active" aria-pressed="true">
+          YAML
+        </button>
+        <button data-format="json" aria-pressed="false">
+          JSON
+        </button>
+      </div>
+    </div>
+    <pre data-source="yaml">{contractYaml}</pre>
+    <pre data-source="json" hidden>{contractJson}</pre>
+  </source-viewer>
+</Section>
+
+<script>
+  class SourceViewer extends HTMLElement {
+    connectedCallback() {
+      this.addEventListener('click', (event) => {
+        if (!(event.target instanceof Element)) return;
+        const button = event.target.closest<HTMLButtonElement>('[data-format]');
+        if (!button) return;
+
+        this.querySelectorAll<HTMLButtonElement>('[data-format]').forEach((item) => {
+          const active = item === button;
+          item.classList.toggle('active', active);
+          item.setAttribute('aria-pressed', String(active));
+        });
+        this.querySelectorAll<HTMLElement>('[data-source]').forEach((source) => {
+          source.hidden = source.dataset.source !== button.dataset.format;
+        });
+      });
+    }
+  }
+
+  customElements.define('source-viewer', SourceViewer);
+</script>

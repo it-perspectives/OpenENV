@@ -1,0 +1,30 @@
+---
+import { site } from '../data/site';
+---
+
+<header class="panel topbar">
+  <a class="brand" href="/" aria-label="OpenENV — обзор">
+    <img src="/openenv.svg" alt="" width="39" height="42" />
+    <span>
+      OPEN<span class="cyan">ENV</span>
+      <small>ENVIRONMENT CONTRACT CONSOLE</small>
+    </span>
+  </a>
+  <div class="header-right">
+    <span class="version">
+      SPEC / {site.specificationVersion} <i>{site.status}</i>
+    </span>
+    <a class="github-link" href={site.github} target="_blank" rel="noopener">
+      GitHub <span>↗</span>
+    </a>
+    <button
+      id="menu"
+      class="icon-button"
+      aria-label="Открыть меню"
+      aria-expanded="false"
+      aria-controls="sidebar"
+    >
+      ☰
+    </button>
+  </div>
+</header>

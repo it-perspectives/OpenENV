@@ -5,7 +5,10 @@ on:
 permissions:
   contents: write
 jobs:
+  artifacts:
+    uses: ./.github/workflows/build-artifacts.yml
   release:
+    needs: artifacts
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7

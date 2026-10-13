@@ -1,0 +1,130 @@
+---
+import Badge from '../ui/Badge.astro';
+import Section from '../ui/Section.astro';
+import VariableDetail from './VariableDetail.astro';
+import { filters, variables, contract } from '../../data/contract';
+
+interface Props {
+  controls?: boolean;
+}
+const { controls = false } = Astro.props;
+const selected = variables[0]?.[0];
+---
+
+<contract-explorer>
+  <Section
+    label={
+      controls
+        ? `ORDERS SERVICE / CONTRACT VERSION ${contract.info.version}`
+        : 'INTERACTIVE EXAMPLE / ORDERS SERVICE'
+    }
+    title="ENVIRONMENT MATRIX"
+  >
+    <Fragment slot="actions">
+      {controls ? (
+        <label class="search">
+          <span aria-hidden="true">⌕</span>
+          <input
+            data-search
+            type="search"
+            placeholder="Имя, тип или описание…"
+            aria-label="Поиск переменных"
+          />
+        </label>
+      ) : (
+        <a class="text-link" href="/contract/">
+          Открыть контракт →
+        </a>
+      )}
+    </Fragment>
+    {controls && (
+      <div class="filters" role="group" aria-label="Фильтр переменных">
+        {filters.map((filter) => (
+          <button
+            class:list={['filter', { active: filter.id === 'all' }]}
+            data-filter={filter.id}
+            aria-pressed={filter.id === 'all'}
+          >
+            {filter.label}
+          </button>
+        ))}
+      </div>
+    )}
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>VARIABLE</th>
+            <th>TYPE</th>
+            <th>PRESENCE</th>
+            <th>DEFAULT</th>
+            <th>SENSITIVITY</th>
+          </tr>
+        </thead>
+        <tbody>
+          {variables.map(([name, variable], index) => (
+            <tr
+              class:list={['variable-row', { selected: name === selected }]}
+              data-variable={name}
+              data-search-text={`${name} ${variable.type} ${variable.description}`.toLowerCase()}
+              data-required={Boolean(variable.required)}
+              data-sensitive={Boolean(variable.sensitive)}
+              data-default={Object.hasOwn(variable, 'default')}
+            >
+              <td class="row-number">{String(index + 1).padStart(2, '0')}</td>
+              <td>
+                <button
+                  class="variable-select var-name"
+                  data-select={name}
+                  aria-label={`Открыть ${name}`}
+                  aria-pressed={name === selected}
+                >
+                  {name}
+                </button>
+              </td>
+              <td class="type">{variable.type === 'array' ? 'array<string>' : variable.type}</td>
+              <td>
+                <Badge tone={variable.required ? 'default' : 'muted'}>
+                  {variable.required ? 'REQUIRED' : 'OPTIONAL'}
+                </Badge>
+              </td>
+              <td class="default-value">
+                {variable.sensitive ? (
+                  <span class="lock">⊙ RESTRICTED</span>
+                ) : Object.hasOwn(variable, 'default') ? (
+                  JSON.stringify(variable.default)
+                ) : (
+                  '—'
+                )}
+              </td>
+              <td>
+                {variable.sensitive ? (
+                  <Badge tone="orange">SENSITIVE</Badge>
+                ) : (
+                  <span class="default-value">STANDARD</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <div class="empty" data-empty hidden>
+        Переменные не найдены. Измените запрос или фильтр.
+      </div>
+    </div>
+    <div class="table-bottom">
+      <span data-count>
+        {String(variables.length).padStart(2, '0')} VARIABLES / EXAMPLE CONTRACT
+      </span>
+      <span>SELECT A ROW TO INSPECT ↗</span>
+    </div>
+  </Section>
+  {variables.map(([name, variable]) => (
+    <VariableDetail name={name} variable={variable} hidden={name !== selected} />
+  ))}
+</contract-explorer>
+
+<script>
+  import '../../scripts/contract-explorer';
+</script>

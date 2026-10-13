@@ -1,0 +1,18 @@
+---
+import ConsoleLayout from '../layouts/ConsoleLayout.astro';
+import Hero from '../components/Hero.astro';
+import Metrics from '../components/Metrics.astro';
+import ContractExplorer from '../components/contract/ContractExplorer.astro';
+import Section from '../components/ui/Section.astro';
+import Flow from '../components/ui/Flow.astro';
+import { overview } from '../data/content';
+---
+
+<ConsoleLayout title="Environment Contract Console">
+  <Hero />
+  <Metrics />
+  <ContractExplorer />
+  <Section label="HOW IT WORKS" title="ОДИН КОНТРАКТ. ТРИ УРОВНЯ ПРОВЕРКИ.">
+    <Flow items={overview.flow} />
+  </Section>
+</ConsoleLayout>

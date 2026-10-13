@@ -1,0 +1,44 @@
+---
+import ConsoleLayout from '../layouts/ConsoleLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import Section from '../components/ui/Section.astro';
+import LivePreview from '../components/preview/LivePreview.astro';
+import { intros, previewFeatures, notes } from '../data/content';
+import { site } from '../data/site';
+---
+
+<ConsoleLayout title="VS Code Preview">
+  <PageIntro {...intros.vscode}>
+    <span slot="actions" class="vscode-shortcut">
+      ⌘ K → V / CTRL K → V
+    </span>
+  </PageIntro>
+  <LivePreview />
+  <Section label="EXTENSION DESIGN" title="ПОВЕДЕНИЕ PREVIEW">
+    <div class="feature-lines">
+      {previewFeatures.map((feature) => (
+        <div>
+          <span class="number cyan">{feature.label}</span>
+          <h3>{feature.title}</h3>
+          <p>{feature.description}</p>
+        </div>
+      ))}
+    </div>
+    <div class="notice">{notes.previewPrototype}</div>
+  </Section>
+  <Section label="DEVELOPER NOTES" title="АРХИТЕКТУРА РАСШИРЕНИЯ">
+    <p class="section-description">{notes.previewArchitecture}</p>
+    <a class="text-link" href={site.github} target="_blank" rel="noopener">
+      Репозиторий OpenENV ↗
+    </a>
+    <span> · </span>
+    <a
+      class="text-link"
+      href="https://code.visualstudio.com/api/extension-guides/webview"
+      target="_blank"
+      rel="noopener"
+    >
+      VS Code Webview API ↗
+    </a>
+  </Section>
+</ConsoleLayout>

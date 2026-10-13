@@ -1,0 +1,13 @@
+---
+import ConsoleLayout from '../layouts/ConsoleLayout.astro';
+import PageIntro from '../components/ui/PageIntro.astro';
+import ContractExplorer from '../components/contract/ContractExplorer.astro';
+import SourceViewer from '../components/contract/SourceViewer.astro';
+import { intros } from '../data/content';
+---
+
+<ConsoleLayout title="Contract Explorer">
+  <PageIntro {...intros.contract} />
+  <ContractExplorer controls />
+  <SourceViewer />
+</ConsoleLayout>

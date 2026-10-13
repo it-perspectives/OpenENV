@@ -1,0 +1,16 @@
+---
+interface Props {
+  command: string;
+}
+const { command } = Astro.props;
+---
+
+<div class="command">
+  <span class="prompt" aria-hidden="true">
+    $
+  </span>
+  <code>{command}</code>
+  <button data-copy={command} aria-label="Скопировать команду">
+    COPY ⧉
+  </button>
+</div>
