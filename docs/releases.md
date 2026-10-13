@@ -46,8 +46,31 @@ major version. See SPEC.md for the complete compatibility policy.
    `node scripts/smoke-package.js`. Review the generated archive, npm file list,
    and `dist/release-notes.md` as the exact description to be published.
 4. Verify the Node.js 22 and 24 CI jobs. Local checks establish only the local runtime.
-5. Commit the reviewed release source and create an annotated `vX.Y.Z` Git tag.
-6. Push the commit and tag when publication is intended.
+5. Commit the reviewed release source on `main`.
+6. Run `npm run deploy X.Y.Z` when publication is intended. For the initial release:
+
+   ```sh
+   npm run deploy 0.1.0
+   ```
+
+The deploy command releases the already prepared version; it does not bump versions
+or commit files. It requires a clean `main` branch, a matching package version, and
+an unused tag on both the local repository and `origin`. It reruns release
+preparation and the packed-consumer check before creating an annotated tag with
+the message `OpenENV vX.Y.Z`. It then pushes only `main` and that tag to `origin`
+in one atomic operation. A rejected branch update also rejects the tag update;
+force pushes are never used. The remote must support atomic pushes.
+
+If the push fails, the local tag is retained. Inspect the remote branch and tag
+before retrying. After resolving the cause and verifying that the tag points to
+the intended `main` commit, the push can be retried manually:
+
+```sh
+git push --atomic origin refs/heads/main refs/tags/vX.Y.Z
+```
+
+The command does not wait for GitHub Actions or publish to npm. Check both Node.js
+CI jobs and the release workflow after pushing.
 
 Pushing a `v*` tag triggers the supplied GitHub release workflow. The workflow
 checks that the tag matches the package and specification, runs validation,

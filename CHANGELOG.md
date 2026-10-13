@@ -23,6 +23,8 @@ implementation for validation and runtime checking.
   values and default resolution for application startup.
 - Conformance tests, isolated npm consumer checks, and CI on Node.js 22 and 24.
 - Source and npm archives, standalone schema and examples, and SHA-256 checksums.
+- `npm run deploy X.Y.Z` checks the prepared release and atomically pushes `main`
+  and its annotated version tag to start GitHub publication.
 
 ### Compatibility
 

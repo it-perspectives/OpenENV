@@ -218,6 +218,16 @@ These commands prepare `dist/` and test the actual npm tarball in an isolated
 consumer. They do not publish anything. See [the release guide](docs/releases.md)
 for GitHub releases, npm distribution, version policy, and the publishing steps.
 
+After preparing and committing the release on `main`, publish its tag with:
+
+```sh
+npm run deploy 0.1.0
+```
+
+This checks the prepared version, builds and tests the release assets, and pushes
+`main` and an annotated tag to `origin`. GitHub Actions publishes the GitHub release;
+npm registry publication is a separate maintainer step.
+
 ## Contributors
 
 - [Kolosov Aleksandr (@dnwsilver)](https://github.com/dnwsilver)
