@@ -4,10 +4,12 @@ import { spawnSync } from 'node:child_process';
 import { join } from 'node:path';
 import { writeFileSync } from 'node:fs';
 import { schema, specificationVersion } from '../src/index.js';
+import { extractReleaseNotes } from './release-notes.js';
 
 const metadata = JSON.parse(readFileSync('package.json', 'utf8'));
 if (metadata.version !== specificationVersion || schema.properties.openenv.const !== specificationVersion || !schema.$id.includes(`/v${specificationVersion}/`)) throw new Error('Release versions disagree.');
 if (process.env.GITHUB_REF_TYPE === 'tag' && process.env.GITHUB_REF_NAME !== `v${specificationVersion}`) throw new Error('Release tag must match the specification and package version.');
+const releaseNotes = extractReleaseNotes(readFileSync('CHANGELOG.md', 'utf8'), specificationVersion);
 mkdirSync('dist', { recursive: true });
 const run = (command, args) => {
   const output = spawnSync(command, args, { encoding: 'utf8' });
@@ -23,9 +25,11 @@ const packageInfo = Array.isArray(packed) ? packed[0] : packed[metadata.name];
 if (!packageInfo || packageInfo.version !== specificationVersion || typeof packageInfo.filename !== 'string') throw new Error('Unexpected npm pack metadata.');
 const npmPackage = packageInfo.filename;
 copyFileSync('SPEC.md', 'dist/SPEC.md');
+copyFileSync('CHANGELOG.md', 'dist/CHANGELOG.md');
+writeFileSync('dist/release-notes.md', releaseNotes);
 const schemaFile = `openenv-${specificationVersion}.schema.json`;
 copyFileSync(join('schemas', schemaFile), join('dist', schemaFile));
-const artifacts = [archive, npmPackage, 'SPEC.md', schemaFile];
+const artifacts = [archive, npmPackage, 'SPEC.md', schemaFile, 'CHANGELOG.md', 'release-notes.md'];
 for (const filename of readdirSync('examples')) {
   copyFileSync(join('examples', filename), join('dist', filename));
   artifacts.push(filename);

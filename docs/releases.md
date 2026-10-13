@@ -13,7 +13,8 @@ tooling. Its contents are:
 | `openenv-X.Y.Z.tar.gz` | Source, schema, documentation, tests, linter, and lockfile. |
 | `it-perspectives-openenv-X.Y.Z.tgz` | Installable npm distribution of the linter/checker and schema. |
 | `SHA256SUMS` | SHA-256 checksums for the release assets. |
-| GitHub release notes and `CHANGELOG.md` | Compatibility, migration, and implementation changes. |
+| `CHANGELOG.md` | Full release history, included in both archives and attached separately. |
+| `release-notes.md` | Current version's changelog entry, also used as the GitHub release description. |
 | `LICENSE` | MIT license included in both distributions. |
 
 The npm package includes the reference implementation, schema, specification,
@@ -40,8 +41,10 @@ major version. See SPEC.md for the complete compatibility policy.
 1. Review normative wording and update the schema, examples, and tests together.
 2. Update `openenv` version, package version, schema filename/ID, example versions,
    and supported version constants together. Record migration impact in the changelog.
+   Use a `## X.Y.Z — Title` heading and `###` subsections for the release entry.
 3. Run `npm ci --ignore-scripts`, `npm run release:prepare`, and
-   `node scripts/smoke-package.js`. Review the generated archive and npm file list.
+   `node scripts/smoke-package.js`. Review the generated archive, npm file list,
+   and `dist/release-notes.md` as the exact description to be published.
 4. Verify the Node.js 22 and 24 CI jobs. Local checks establish only the local runtime.
 5. Commit the reviewed release source and create an annotated `vX.Y.Z` Git tag.
 6. Push the commit and tag when publication is intended.
@@ -49,6 +52,11 @@ major version. See SPEC.md for the complete compatibility policy.
 Pushing a `v*` tag triggers the supplied GitHub release workflow. The workflow
 checks that the tag matches the package and specification, runs validation,
 builds assets, tests the packed consumer, and creates a GitHub release with assets.
+The description comes from the matching version's entry in `CHANGELOG.md`, via
+`--notes-file dist/release-notes.md`. Other versions and the top-level changelog
+heading are excluded; Markdown subsections are preserved. Preparation fails if
+the entry is missing, duplicated, or empty. Both Markdown assets are covered by
+`SHA256SUMS`. Edit the changelog before tagging to control the published wording.
 It needs the repository's GitHub Actions `contents: write` permission. Publishing
 is a maintainer action; creating files locally does not run that workflow.
 

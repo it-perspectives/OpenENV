@@ -19,4 +19,6 @@ jobs:
       - name: Publish GitHub release assets
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" dist/* --verify-tag --title "OpenENV $GITHUB_REF_NAME" --generate-notes
+        run: >-
+          gh release create "$GITHUB_REF_NAME" dist/* --verify-tag
+          --title "OpenENV $GITHUB_REF_NAME" --notes-file dist/release-notes.md
